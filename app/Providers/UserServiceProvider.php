@@ -9,7 +9,7 @@ use Illuminate\Contracts\Support\DeferrableProvider;
 
 class UserServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    public array $singgleton = [
+    public array $singletons = [
         UserService::class => UserServiceImpl::class
     ];
     public function provides(): array{
