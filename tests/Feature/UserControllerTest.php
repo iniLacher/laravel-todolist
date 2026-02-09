@@ -13,19 +13,30 @@ class UserControllerTest extends TestCase
     public function testLogin() {
         $this->get('/login')->assertSeeText('Login')->assertSeeText('King Abdi');
     }
-//     protected function setUp(): void
-// {
-//     parent::setUp();
-    
-//     // Force bind UserService
-//     $this->app->singleton(UserService::class, UserServiceImpl::class);
-// }
+    public function testMiddlewareMemberLogin() {
+      $this->withSession(['username' => 'kingAbdi'])
+            ->get('/login')
+            ->assertRedirect('/');
+    }
 
     public function testLoginSuccess() {
-      $this->post('/doLogin', [
+      $this->post('/login', [
         'username' => 'kingAbdi',
         'password' => 'rahasia'
       ])->assertRedirect('/')
         ->assertSessionHas('username', 'kingAbdi');
     }
+
+    public function testLogout() {
+      $this->withSession(['username' => 'kingAbdi'])
+            ->post('/logout')
+            ->assertSessionMissing('username')
+            ->assertRedirect('/login');
+    }
+    public function testLogoutGuest() {
+      $this->post('/logout')
+            ->assertRedirect('/login');
+    }
+
+    
 }

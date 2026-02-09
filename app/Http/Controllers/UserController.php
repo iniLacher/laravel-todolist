@@ -26,7 +26,8 @@ class UserController extends Controller
         if (empty ($username) || empty ($password)) {
             return response()->view('user.login', [
               'title' => 'Login',
-              'error' => 'Username and password are required']);
+              'error' => 'Username and password are required'
+            ]); 
         }
 
         if ($this->userService->login($username, $password)) {
@@ -43,7 +44,8 @@ class UserController extends Controller
 
 
     public function doLogout() {
-        return 'Hi from logout';
+      session()->forget('username');
+      return redirect('/login');
 
     }
 }
